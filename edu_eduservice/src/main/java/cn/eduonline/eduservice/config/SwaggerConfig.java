@@ -11,6 +11,13 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * @ClassName EduConfig
+ * @Description Swagger配置类：1.生成接口文档，2.便于后台代码调试
+ * @Author 张燕廷
+ * @Date 2020/1/9 9:34
+ * @Version 1.0
+ **/
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

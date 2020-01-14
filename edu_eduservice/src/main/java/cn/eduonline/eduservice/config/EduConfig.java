@@ -8,6 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * @ClassName EduConfig
+ * @Description 主程序配置类
+ * @Author 张燕廷
+ * @Date 2020/1/9 9:34
+ * @Version 1.0
+ **/
 @Configuration
 @EnableTransactionManagement
 @MapperScan("cn.eduonline.eduservice.mapper")

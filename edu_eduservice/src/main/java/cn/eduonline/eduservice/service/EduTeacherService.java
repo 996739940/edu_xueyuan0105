@@ -10,11 +10,16 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 讲师 服务类
  * </p>
  *
- * @author testjava
+ * @author 张燕廷
  * @since 2019-12-31
  */
 public interface EduTeacherService extends IService<EduTeacher> {
 
+    /**
+     * 分页获取教师的数据
+     * @param pageParam
+     * @param teacherQuery
+     */
     void getTeacherPage(Page<EduTeacher> pageParam, TeacherQuery teacherQuery);
 
 }
