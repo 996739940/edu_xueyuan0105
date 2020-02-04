@@ -75,11 +75,11 @@ public class EduTeacherController {
      */
     @DeleteMapping("{id}")
     public R deleteTeacherId(@PathVariable String id) {
-        boolean result = eduTeacherService.removeById(id);
-        if(result) {
+        boolean result = eduTeacherService.removeTeacherById(id);
+        if(result){
             return R.ok();
-        } else {
-            return R.error();
+        }else{
+            return R.error().message("删除失败");
         }
     }
 

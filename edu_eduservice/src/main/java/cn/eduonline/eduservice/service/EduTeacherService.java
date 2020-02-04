@@ -22,4 +22,5 @@ public interface EduTeacherService extends IService<EduTeacher> {
      */
     void getTeacherPage(Page<EduTeacher> pageParam, TeacherQuery teacherQuery);
 
+    boolean removeTeacherById(String id);
 }
