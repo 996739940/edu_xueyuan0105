@@ -64,7 +64,7 @@ public class EduTeacherController {
 //        return list;
 //    }
 
-    @GetMapping
+    @GetMapping("listTeachers")
     public R getAllTeacher() {
         List<EduTeacher> list = eduTeacherService.list(null);
         return R.ok().data("items",list);
