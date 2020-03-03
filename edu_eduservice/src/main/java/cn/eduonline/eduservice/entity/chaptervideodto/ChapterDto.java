@@ -17,6 +17,6 @@ public class ChapterDto {
 
     private String id;
     private String title;
-    //章节里面的很多的小节
+    /**章节里面的很多的小节*/
     private List<VideoDto> children = new ArrayList<>();
 }

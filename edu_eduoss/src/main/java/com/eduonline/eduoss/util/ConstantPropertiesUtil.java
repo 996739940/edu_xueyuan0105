@@ -2,19 +2,20 @@ package com.eduonline.eduoss.util;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 
 /**
- * @ClassName ConstantPropertiesUtil
- * @Description 常量类，读取配置文件application.properties中的配置
  * @Author 张燕廷
- * @Date 2020/1/16 14:14
- * @Version 1.0
+ * @Description 常量类，读取配置文件application.properties中的配置
+ * @Date 20:33 2020/2/26
+ * @Param
+ * @return
  **/
 @Component
-//@PropertySource("classpath:application.properties")
 public class ConstantPropertiesUtil implements InitializingBean {
+    /**@PropertySource("classpath:application.properties")*/
 
     @Value("${aliyun.oss.file.endpoint}")
     private String endpoint;

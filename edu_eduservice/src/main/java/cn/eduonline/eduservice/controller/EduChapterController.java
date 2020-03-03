@@ -26,14 +26,14 @@ public class EduChapterController {
     @Autowired
     private EduChapterService eduChapterService;
 
-    //1 返回当前课程里面的章节和小节的封装数据
+    /**1 返回当前课程里面的章节和小节的封装数据*/
     @GetMapping("getAllChapterVideo/{courseId}")
     public R getChapterVideoAll(@PathVariable String courseId) {
         List<ChapterDto> list = eduChapterService.getAllVideoChapter(courseId);
         return R.ok().data("items",list);
     }
 
-    //添加章节
+    /**添加章节*/
     @PostMapping("addChapter")
     public R addChapter(@RequestBody EduChapter eduChapter) {
         boolean save = eduChapterService.save(eduChapter);
@@ -44,14 +44,14 @@ public class EduChapterController {
         }
     }
 
-    //根据章节id查询信息
+    /**根据章节id查询信息*/
     @GetMapping("getChapterInfoId/{chapterId}")
     public R getChapterInfoId(@PathVariable String chapterId) {
         EduChapter eduChapter = eduChapterService.getById(chapterId);
         return R.ok().data("eduChapter",eduChapter);
     }
 
-    //修改章节
+    /**修改章节*/
     @PostMapping("updateChapter")
     public R updateChapter(@RequestBody EduChapter eduChapter) {
         boolean result = eduChapterService.updateById(eduChapter);
@@ -62,7 +62,7 @@ public class EduChapterController {
         }
     }
 
-    //删除章节
+    /**删除章节*/
     @DeleteMapping("{chapterId}")
     public R deleteChapterId(@PathVariable String chapterId) {
         boolean flag = eduChapterService.removeChapterId(chapterId);

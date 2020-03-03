@@ -13,5 +13,11 @@ import lombok.Data;
 public class VideoDto {
 
     private String id;
+
     private String title;
+
+    private String videoOriginalName;
+
+    private String videoSourceId;
+
 }

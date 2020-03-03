@@ -3,17 +3,27 @@ package cn.eduonline.common;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
+import org.jboss.logging.Param;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @Author 张燕廷
+ * @Description Excel工具类
+ * @Date 20:15 2020/2/26
+ * @Param
+ * @return
+ **/
 public class ExcelImportHSSFUtil {
 
     private HSSFFormulaEvaluator formulaEvaluator;
     private HSSFSheet sheet;
-    private String pattern;// 日期格式
+
+    /**日期格式*/
+    private String pattern;
 
     public String getPattern() {
         return pattern;
@@ -63,9 +73,11 @@ public class ExcelImportHSSFUtil {
     public String getCellValue(Cell cell, int cellType) throws Exception {
 
         switch (cellType) {
-            case Cell.CELL_TYPE_NUMERIC://0
+            //0
+            case Cell.CELL_TYPE_NUMERIC:
 
-                if (HSSFDateUtil.isCellDateFormatted(cell)) {//日期
+                //日期
+                if (HSSFDateUtil.isCellDateFormatted(cell)) {
                     Date date = cell.getDateCellValue();
                     if (pattern != null) {
                         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
@@ -78,22 +90,25 @@ public class ExcelImportHSSFUtil {
                     cell.setCellType(HSSFCell.CELL_TYPE_STRING);
                     return cell.toString();
                 }
-
-            case Cell.CELL_TYPE_STRING://1
+                //1
+            case Cell.CELL_TYPE_STRING:
                 return cell.getStringCellValue();
-            case Cell.CELL_TYPE_FORMULA://2
-
-                if (this.formulaEvaluator == null) {//得到公式
+            //2
+            case Cell.CELL_TYPE_FORMULA:
+            //得到公式
+                if (this.formulaEvaluator == null) {
                     return cell.getCellFormula();
                 } else {//计算公式
                     CellValue evaluate = this.formulaEvaluator.evaluate(cell);
                     cellType = evaluate.getCellType();
                     return String.valueOf(this.getCellValue(cell, cellType));
                 }
-            case Cell.CELL_TYPE_BLANK://3
+                //3
+            case Cell.CELL_TYPE_BLANK:
                 //注意空和没有值不一样，从来没有录入过内容的单元格不属于任何数据类型，不会走这个case
                 return "";
-            case Cell.CELL_TYPE_BOOLEAN://4
+            //4
+            case Cell.CELL_TYPE_BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
             case Cell.CELL_TYPE_ERROR:
                 throw new Exception("数据类型错误");

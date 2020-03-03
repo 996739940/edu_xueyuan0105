@@ -2,6 +2,7 @@ package cn.eduonline.eduservice.service.impl;
 
 import cn.eduonline.eduservice.entity.EduCourse;
 import cn.eduonline.eduservice.entity.EduCourseDescription;
+import cn.eduonline.eduservice.entity.coursedto.CourseBaseInfoDto;
 import cn.eduonline.eduservice.entity.coursedto.CourseInfoDto;
 import cn.eduonline.eduservice.entity.form.CourseInfoForm;
 import cn.eduonline.eduservice.handler.EduException;
@@ -10,6 +11,8 @@ import cn.eduonline.eduservice.service.EduChapterService;
 import cn.eduonline.eduservice.service.EduCourseDescriptionService;
 import cn.eduonline.eduservice.service.EduCourseService;
 import cn.eduonline.eduservice.service.EduVideoService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +20,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -47,7 +54,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         EduCourse eduCourse = new EduCourse();
         BeanUtils.copyProperties(courseInfoForm,eduCourse);
         int result = baseMapper.insert(eduCourse);
-        if(result<=0) {//添加失败
+        //添加失败
+        if(result<=0) {
             throw new EduException(20001,"添加课程信息失败");
         }
 
@@ -56,7 +64,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         String description = courseInfoForm.getDescription();
         if(!StringUtils.isEmpty(description)) {
             EduCourseDescription eduCourseDescription = new EduCourseDescription();
-            eduCourseDescription.setId(courseId);//设置课程id到描述对象里面
+            //设置课程id到描述对象里面
+            eduCourseDescription.setId(courseId);
             eduCourseDescription.setDescription(courseInfoForm.getDescription());
             boolean save = eduCourseDescriptionService.save(eduCourseDescription);
             return courseId;
@@ -64,7 +73,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         return courseId;
     }
 
-    //根据课程id查询课程信息
+    /**根据课程id查询课程信息*/
     @Override
     public CourseInfoForm getCourseInfoFormById(String courseId) {
         //1 查询课程表，得到课程基本信息
@@ -82,7 +91,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         return courseInfoForm;
     }
 
-    //修改课程信息
+    /**修改课程信息*/
     @Override
     public boolean updateCourseInfo(CourseInfoForm courseInfoForm) {
         //1 修改课程基本信息表
@@ -106,14 +115,14 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         return true;
     }
 
-    //根据课程id查询课程的信息（包含课程基本信息，描述，分类，讲师）
+    /**根据课程id查询课程的信息（包含课程基本信息，描述，分类，讲师）*/
     @Override
     public CourseInfoDto getCourseInfoId(String courseId) {
         //调用mapper里面的方法
         return baseMapper.getAllCourseInfo(courseId);
     }
 
-    //发布课程
+    /**发布课程*/
     @Override
     public boolean publishCourseStatus(String courseId) {
         EduCourse eduCourse = new EduCourse();
@@ -137,6 +146,45 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         //4 根据课程id删除课程
         int result = baseMapper.deleteById(courseId);
 
-        return true;
+        return result > 0;
     }
+
+    /**课程分页列表*/
+    @Override
+    public Map<String, Object> getPageCourse(Page<EduCourse> pageCourse) {
+        //查询已经发布课程
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        wrapper.eq("status","Normal");
+        baseMapper.selectPage(pageCourse,wrapper);
+        List<EduCourse> records = pageCourse.getRecords();
+        long total = pageCourse.getTotal();
+        //当前页
+        long current = pageCourse.getCurrent();
+        long pages = pageCourse.getPages();
+        //每页记录数
+        long size = pageCourse.getSize();
+        //是否有上一页
+        boolean hasPrevious = pageCourse.hasPrevious();
+        //是否有下一页
+        boolean hasNext = pageCourse.hasNext();
+
+        //放到map集合
+        Map<String,Object> map = new HashMap<>(256);
+        map.put("items", records);
+        map.put("current", current);
+        map.put("pages", pages);
+        map.put("size", size);
+        map.put("total", total);
+        map.put("hasNext", hasNext);
+        map.put("hasPrevious", hasPrevious);
+
+        return map;
+    }
+
+    /**1 编写sql语句查询课程基本信息*/
+    @Override
+    public CourseBaseInfoDto getCouseBaseInfo(String id) {
+        return baseMapper.getBaseCourseInfo(id);
+    }
+
 }

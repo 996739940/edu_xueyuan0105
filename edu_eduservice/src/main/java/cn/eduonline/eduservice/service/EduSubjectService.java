@@ -21,13 +21,13 @@ public interface EduSubjectService extends IService<EduSubject> {
 
     List<SubjectOne> getAllSubjectData();
 
-    //删除分类的方法
+    /**删除分类的方法*/
     boolean deleteSubjectId(String id);
 
-    //添加一级分类
+    /**添加一级分类*/
     boolean saveEduSubject(EduSubject eduSubject);
 
-    //二级分类添加
+    /**二级分类添加*/
     boolean saveEduSubjectTwo(EduSubject eduSubject);
 
 }

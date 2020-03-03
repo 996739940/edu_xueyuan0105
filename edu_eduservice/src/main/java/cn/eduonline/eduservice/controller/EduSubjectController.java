@@ -15,14 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * <p>
- * 课程科目 前端控制器
- * </p>
- *
- * @author 张燕廷
- * @since 2020-02-02
- */
-@CrossOrigin    //跨域
+ * @Author 张燕廷
+ * @Description 课程科目 前端控制器
+ * @Date 20:32 2020/2/26
+ * @Param
+ * @return
+ **/
+@CrossOrigin
 @RestController
 @RequestMapping("/eduservice/subject")
 public class EduSubjectController {
@@ -30,7 +29,7 @@ public class EduSubjectController {
     @Autowired
     private EduSubjectService eduSubjectService;
 
-    //1 读取上传的excel里面分类数据，添加到数据库中
+    /**1 读取上传的excel里面分类数据，添加到数据库中*/
     @PostMapping("import")
     public R importSubjectData(MultipartFile file) {
         //list集合存储的错误信息
@@ -42,14 +41,14 @@ public class EduSubjectController {
         }
     }
 
-    //2 返回所有的 分类信息（一级和二级）
+    /**2 返回所有的 分类信息（一级和二级）*/
     @GetMapping("getAllSubject")
     public R getSubjcetAll() {
         List<SubjectOne> list = eduSubjectService.getAllSubjectData();
         return R.ok().data("items",list);
     }
 
-    //3 分类删除的方法
+    /**3 分类删除的方法*/
     @DeleteMapping("{id}")
     public R removeSubjectId(@PathVariable String id) {
         boolean flag = eduSubjectService.deleteSubjectId(id);
@@ -60,7 +59,7 @@ public class EduSubjectController {
         }
     }
 
-    //添加二级分类
+    /**添加二级分类*/
     @PostMapping("addLevelTwo")
     public R addTwoLevel(@RequestBody EduSubject eduSubject) {
         boolean save = eduSubjectService.saveEduSubjectTwo(eduSubject);
@@ -71,7 +70,7 @@ public class EduSubjectController {
         }
     }
 
-    //添加一级分类
+    /**添加一级分类*/
     @PostMapping("addLevelOne")
     public R addOneLevel(@RequestBody EduSubject eduSubject) {
         boolean save = eduSubjectService.saveEduSubject(eduSubject);
