@@ -35,7 +35,7 @@ import java.util.List;
 @Service
 public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubject> implements EduSubjectService {
 
-    //导入课程分类使用poi实现
+    /**导入课程分类使用poi实现*/
     @Override
     public List<String> importData(MultipartFile file) {
         try {
@@ -91,7 +91,8 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 EduSubject existSubject = this.existOneSubectName(oneCellValue);
                 //定义变量为了存储一级分类id
                 String pid = null;
-                if(existSubject == null) { //数据库表没有一级分类
+                //数据库表没有一级分类
+                if(existSubject == null) {
                     //添加
                     EduSubject subject1 = new EduSubject();
                     subject1.setTitle(oneCellValue);
@@ -138,7 +139,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         }
     }
 
-    //返回所有分类数据，按照要求的固定的格式
+    /**返回所有分类数据，按照要求的固定的格式*/
     @Override
     public List<SubjectOne> getAllSubjectData() {
         //1 查询所有的一级分类
@@ -198,7 +199,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         return finalSubjectData;
     }
 
-    //删除分类的方法
+    /**删除分类的方法*/
     @Override
     public boolean deleteSubjectId(String id) {
         //1 判断当前分类下面是否有子分类
@@ -206,7 +207,8 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         wrapper.eq("parent_id",id);
         //查询分类里面是否有子分类，如果返回值大于0有子分类，否则没有子分类
         Integer count = baseMapper.selectCount(wrapper);
-        if(count > 0) {//有子分类
+        //有子分类
+        if(count > 0) {
             //不进行删除
             throw new EduException(20001,"当前分类有子分类，不能删除");
             // return false;
@@ -217,20 +219,21 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         }
     }
 
-    //添加一级分类
+    /**添加一级分类*/
     @Override
     public boolean saveEduSubject(EduSubject eduSubject) {
         //判断一级分类是否存在
         EduSubject existEduSubject = this.existOneSubectName(eduSubject.getTitle());
         if(existEduSubject == null) {
-            eduSubject.setParentId("0");//一级分类
+            //一级分类
+            eduSubject.setParentId("0");
             int insert = baseMapper.insert(eduSubject);
             return insert>0;
         }
         return false;
     }
 
-    //添加二级分类
+    /**添加二级分类*/
     @Override
     public boolean saveEduSubjectTwo(EduSubject eduSubject) {
         //判断是否存在
@@ -242,7 +245,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         return false;
     }
 
-    //判断表里面是否相同名称一级分类
+    /**判断表里面是否相同名称一级分类*/
     private EduSubject existOneSubectName(String name) {
         QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();
         wrapper.eq("title",name);
@@ -251,7 +254,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         return eduSubject;
     }
 
-    //判断是否存在二级分类
+    /**判断是否存在二级分类*/
     private EduSubject existTwoSubject(String name ,String pid) {
         QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();
         wrapper.eq("title",name);

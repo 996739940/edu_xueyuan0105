@@ -23,7 +23,7 @@ public class EduVideoController {
     @Autowired
     private EduVideoService eduVideoService;
 
-    //1 添加小节
+    /**1 添加小节*/
     @PostMapping("saveVideo")
     public R saveVideoInfo(@RequestBody EduVideo eduVideo) {
         boolean save = eduVideoService.save(eduVideo);
@@ -34,14 +34,14 @@ public class EduVideoController {
         }
     }
 
-    //2 根据小节id查询
+    /**2 根据小节id查询*/
     @GetMapping("{videoId}")
     public R getVideoInfoId(@PathVariable String videoId) {
         EduVideo eduVideo = eduVideoService.getById(videoId);
         return R.ok().data("video",eduVideo);
     }
 
-    //3 修改小节
+    /**3 修改小节*/
     @PostMapping("updateVideo")
     public R updateVideoInfo(@RequestBody EduVideo eduVideo) {
         boolean result = eduVideoService.updateById(eduVideo);
@@ -52,7 +52,7 @@ public class EduVideoController {
         }
     }
 
-    //4 删除小节
+    /**4 删除小节*/
     @DeleteMapping("{videoId}")
     public R deleteVideoId(@PathVariable String videoId) {
         boolean flag = eduVideoService.removeVideoInfo(videoId);

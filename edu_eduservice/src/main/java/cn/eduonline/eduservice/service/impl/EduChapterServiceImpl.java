@@ -30,7 +30,7 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
     @Autowired
     private EduVideoService eduVideoService;
 
-    //根据课程id返回课程里面所有的章节和小节
+    /**根据课程id返回课程里面所有的章节和小节*/
     @Override
     public List<ChapterDto> getAllVideoChapter(String courseId) {
         //1 根据课程id查询课程所有章节
@@ -76,14 +76,15 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         return finalChapterVideoList;
     }
 
-    //删除章节
+    /**删除章节*/
     @Override
     public boolean removeChapterId(String chapterId) {
         //1 判断章节里面是否有小节
         QueryWrapper<EduVideo> wrapper = new QueryWrapper<>();
         wrapper.eq("chapter_id",chapterId);
         int count = eduVideoService.count(wrapper);
-        if(count > 0) {//章节里面有小节
+        //章节里面有小节
+        if(count > 0) {
             //不进行删除
             throw new EduException(20001,"章节里面有小节，不能删除");
         } else {

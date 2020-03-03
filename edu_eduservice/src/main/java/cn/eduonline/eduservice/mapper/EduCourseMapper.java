@@ -1,6 +1,7 @@
 package cn.eduonline.eduservice.mapper;
 
 import cn.eduonline.eduservice.entity.EduCourse;
+import cn.eduonline.eduservice.entity.coursedto.CourseBaseInfoDto;
 import cn.eduonline.eduservice.entity.coursedto.CourseInfoDto;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -14,7 +15,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface EduCourseMapper extends BaseMapper<EduCourse> {
 
-    //根据课程id查询课程的信息（包含课程基本信息，描述，分类，讲师）
+    /**根据课程id查询课程的信息（包含课程基本信息，描述，分类，讲师）*/
     CourseInfoDto getAllCourseInfo(String courseId);
 
+    CourseBaseInfoDto getBaseCourseInfo(String id);
 }

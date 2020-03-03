@@ -27,7 +27,7 @@ public class EduCourseController {
     @Autowired
     private EduCourseService eduCourseService;
 
-    //删除课程的方法
+    /**删除课程的方法*/
     @DeleteMapping("{courseId}")
     public R deleteCourseId(@PathVariable String courseId) {
         boolean flag = eduCourseService.removeCourseInChapterVideo(courseId);
@@ -38,13 +38,13 @@ public class EduCourseController {
         }
     }
 
-    //TODO 查询所有课程，改造成条件查询带分页
+    /**查询所有课程，改造成条件查询带分页*/
     @GetMapping("findAllCourse")
     public R getAllCourseList() {
         List<EduCourse> list = eduCourseService.list(null);
         return R.ok().data("items",list);
     }
-    //最终发布课程的方法
+    /**最终发布课程的方法*/
     @PostMapping("publishCourse/{courseId}")
     public R publishCourse(@PathVariable String courseId) {
         boolean flag = eduCourseService.publishCourseStatus(courseId);
@@ -54,14 +54,14 @@ public class EduCourseController {
             return R.error();
         }
     }
-    //根据课程id查询课程的信息（包含课程基本信息，描述，分类，讲师）
+    /**根据课程id查询课程的信息（包含课程基本信息，描述，分类，讲师）*/
     @GetMapping("getCourseAllInfo/{courseId}")
     public R getCourseAllInfo(@PathVariable String courseId) {
         CourseInfoDto courseInfoDto = eduCourseService.getCourseInfoId(courseId);
         return R.ok().data("courseInfo",courseInfoDto);
     }
 
-    //添加课程（包含描述）
+    /**添加课程（包含描述）*/
     @PostMapping("addCourse")
     public R addCourse(@RequestBody CourseInfoForm courseInfoForm) {
         //返回添加的课程的id
@@ -69,14 +69,14 @@ public class EduCourseController {
         return R.ok().data("courseId",courseId);
     }
 
-    //根据课程id查询课程信息
+    /**根据课程id查询课程信息*/
     @GetMapping("{courseId}")
     public R getCourseInfoId(@PathVariable String courseId) {
         CourseInfoForm courseInfoForm = eduCourseService.getCourseInfoFormById(courseId);
         return R.ok().data("course",courseInfoForm);
     }
 
-    //修改课程信息的方法
+    /**修改课程信息的方法*/
     @PostMapping("updateCourse")
     public R updateCourseInfo(@RequestBody CourseInfoForm courseInfoForm) {
         boolean flag = eduCourseService.updateCourseInfo(courseInfoForm);

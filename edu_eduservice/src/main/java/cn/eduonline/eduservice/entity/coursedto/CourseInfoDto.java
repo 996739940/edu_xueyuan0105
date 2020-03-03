@@ -2,6 +2,8 @@ package cn.eduonline.eduservice.entity.coursedto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @ClassName CoursePublishVo
  * @Description 课程提交vo对象
@@ -10,7 +12,7 @@ import lombok.Data;
  * @Version 1.0
  **/
 @Data
-public class CourseInfoDto {
+public class CourseInfoDto implements Serializable {
 
     private String title;
     private String cover;
@@ -18,6 +20,7 @@ public class CourseInfoDto {
     private String subjectLevelOne;
     private String subjectLevelTwo;
     private String teacherName;
-    private String price;//只用于显示
+    /**只用于显示*/
+    private String price;
 
 }

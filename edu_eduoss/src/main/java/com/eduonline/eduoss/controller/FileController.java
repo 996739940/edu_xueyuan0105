@@ -11,13 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @ClassName FileController
- * @Description 文件相关
+ * @Description 阿里云文件管理
  * @Author 张燕廷
  * @Date 2020/1/16 15:12
  * @Version 1.0
  **/
-@Api(description="阿里云文件管理")
-@CrossOrigin //跨域
+@CrossOrigin
 @RestController
 @RequestMapping("/eduoss/file")
 public class FileController {
